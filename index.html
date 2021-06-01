@@ -16,24 +16,44 @@
     </style>
   </head>
   <body>
+    <form id="form_nick" action="" style="padding: 2rem; height: 50px; display: flex; justify-content: center; ">
+      <input placeholder="Coloca teu nome aqui mano" id="name" autocomplete="off" style="padding: 1rem; border-radius: 8px; width: 300px; border: none; margin-right: 1rem; border: 2px solid #fff;"/>
+      <button style="background-color: blueviolet; color: #fff; width: 200px; border: none; border-radius: 8px;">Apply</button>
+    </form>
     <ul id="messages"></ul>
     <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
+      <input style="border: 2px solid #fff;" id="input" autocomplete="off" />
+      <button style="background-color: blueviolet; color: #fff; width: 200px; border: none; border-radius: 8px;">Send</button>
     </form>
   </body>
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io();
+
+    let nick = 'Anônimo'
   
     var messages = document.getElementById('messages');
     var form = document.getElementById('form');
+    var form_nick = document.getElementById('form_nick');
     var input = document.getElementById('input');
+    var nick_name = document.getElementById('name');
   
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       if (input.value) {
-        socket.emit('chat message', input.value);
+        socket.emit('chat message', `${nick}: ${input.value}`);
         input.value = '';
+      }
+    });
+
+    form_nick.addEventListener('submit', function(e) {
+      e.preventDefault();
+      console.log(nick_name.value);
+      console.log(nick);
+      if (nick_name.value) {
+        nick = nick_name.value;
+        console.log(nick);
+        nick_name.value = '';
       }
     });
   
